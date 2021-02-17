@@ -1,11 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createWebHistory, createRouter } from "vue-router";
 import CitiesList from "../components/CitiesList";
 import CitiesMap from "../components/CitiesMap";
 import City from "../components/City";
 import EasterEgg from "../components/EasterEgg";
-
-Vue.use(VueRouter);
 
 const routes = [
   { path: '/villes', component: CitiesList },
@@ -14,6 +11,9 @@ const routes = [
   { path: '/onenagros', component: EasterEgg}
 ];
 
-export const router = new VueRouter({
-  routes
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
 });
+
+export default router;
