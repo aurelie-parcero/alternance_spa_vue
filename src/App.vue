@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <header id="app_header">
       <img src="./assets/logo-cn.png" alt="Logo Campus Numérique">
       <div>
@@ -9,21 +10,22 @@
     </header>
     <router-view></router-view>
   </div>
+
 </template>
 
-<script>
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import HelloWorld from './components/HelloWorld.vue';
 
-export default {
-  name: 'App'
-}
+@Options({
+  components: {
+    HelloWorld,
+  },
+})
+export default class App extends Vue {}
 </script>
 
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -54,7 +56,7 @@ html, body {
 
 #map {
   width: 100%;
-  height: 70vh;
+  height: 500px;
 }
 
 #map .marker {

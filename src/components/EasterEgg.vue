@@ -9,10 +9,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import axios from 'axios';
+  import { defineComponent } from 'vue';
 
-  export default {
+  export default defineComponent ({
     name: 'EasterEgg',
     data() {
       return {
@@ -35,5 +36,5 @@
     created() {
       this.refreshQuote();
     }
-  }
+  });
 </script>

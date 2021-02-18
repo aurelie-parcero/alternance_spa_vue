@@ -13,17 +13,27 @@
     "mapbox-gl": "^1.13.0",
     "timeago.js": "^4.0.2",
     "vue": "^3.0.0-beta.1",
+    "vue-class-component": "^8.0.0-0",
+    "vue-moment": "^4.1.0",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^2.1.0",
+    "@types/vue-moment": "^4.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
     "@vue-leaflet/vue-leaflet": "^0.5.0",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-plugin-typescript": "^4.5.11",
     "@vue/cli-service": "~4.3.0",
     "@vue/compiler-sfc": "^3.0.0-beta.1",
+    "@vue/eslint-config-typescript": "^5.0.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-alpha.0",
+    "moment-timezone": "^0.5.33",
+    "typescript": "~3.9.3",
     "vue-cli-plugin-vue-next": "~0.1.4"
   },
   "eslintConfig": {
@@ -33,10 +43,11 @@
     },
     "extends": [
       "plugin:vue/vue3-essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/typescript"
     ],
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@typescript-eslint/parser"
     },
     "rules": {}
   },
