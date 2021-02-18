@@ -37,7 +37,7 @@ export default {
       map.on('load', () => {
         const mapboxgl = require('mapbox-gl/dist/mapbox-gl');
         let cities = [];
-        const url = 'https://api.openweathermap.org/data/2.5/find?lat=' + process.env.VUE_APP_DEFAULT_LATITUDE + '&lon=' + process.env.VUE_APP_DEFAULT_LONGITUDE + '&cnt=20&cluster=yes&lang=fr&units=metric&APPID=' + process.env.VUE_APP_OW_APP_ID;
+        const url = `https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`;
         console.log(url);
         axios
             .get(url)
