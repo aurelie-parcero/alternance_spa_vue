@@ -1,6 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import CitiesList from "@/components/CitiesList.vue";
-import CitiesMap from "@/components/CitiesMap.vue";
+import CitiesMap from "../components/CitiesMap.vue";
 import City from "@/components/City.vue";
 import EasterEgg from "@/components/EasterEgg.vue";
 

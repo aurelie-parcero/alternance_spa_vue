@@ -1,73 +1,80 @@
 <template>
-  <div>
-    <h1>Carte des villes</h1>
+  <div style="height: 75vh; width: 100vw; margin: 20px auto;">
+    <l-map
+        v-model:zoom="zoom"
+        :center="centerMap"
+    >
+      <l-tile-layer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      ></l-tile-layer>
 
-    <div id="map"/>
-
+      <l-marker v-for="city in cities" :lat-lng="[city.lat, city.lon]" :key="city.name">
+        <l-icon :icon-url="`https://openweathermap.org/img/wn/${city.icon}.png`" :icon-size="iconSize"/>
+      </l-marker>
+    </l-map>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import {onMounted} from "vue";
-import axios from "axios";
-import {defineComponent} from 'vue';
+import {defineComponent, onMounted, computed} from 'vue';
+import {useStore} from "vuex";
+import {
+  LMap,
+  LTileLayer,
+  LMarker,
+  LIcon,
+} from "@vue-leaflet/vue-leaflet";
+import "leaflet/dist/leaflet.css";
 
 export default defineComponent({
   name: 'CitiesMap',
-  setup() {
-    onMounted(() => {
-      mapboxgl.accessToken =
-          "pk.eyJ1Ijoic29uaWFjbiIsImEiOiJja2w5aHB0amIwOW9nMm9vb2JkODBoOWpkIn0.OzS_BnyJucJStUhfvnaFcA";
-      const map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/mapbox/dark-v9",
-        center: [process.env.VUE_APP_DEFAULT_LONGITUDE, process.env.VUE_APP_DEFAULT_LATITUDE],
-        zoom: 11,
-      });
-      map.on('load', () => {
-        const mapboxgl = require('mapbox-gl/dist/mapbox-gl');
-        let cities: any[] = [];
-        const url = `https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`;
-        console.log(url);
-        axios
-            .get(url)
-            .then((citiesData) => {
-              for (const {
-                name,
-                coord: {lat, lon},
-                weather: [{description: weather, icon: icon}],
-                main: {temp: temperature},
-                dt: updatedAt
-              } of citiesData.data.list) {
-                cities.push({name, lat, lon, weather, icon, temperature, updatedAt: new Date(updatedAt * 1000)});
-              }
-              cities.forEach(city => {
-                let el = document.createElement('img');
-                el.src = `https://openweathermap.org/img/wn/${city.icon}@2x.png`;
-                el.classList.add('marker');
-                el.title = `${city.name} - ${city.temperature}°C`;
-                new mapboxgl.Marker(el)
-                    .setLngLat([city.lon, city.lat])
-                    .addTo(map);
-              });
-            });
-      });
-    });
-    return {};
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+    LIcon,
   },
+  data() {
+    const iconWidth = 50;
+    const iconHeight = 50;
+    return {
+      zoom: 13,
+      iconHeight,
+      iconWidth,
+
+    }
+  },
+  computed: {
+    iconSize() {
+      return [this.iconWidth, this.iconHeight];
+    },
+    centerMap() {
+      return [process.env.VUE_APP_DEFAULT_LATITUDE, process.env.VUE_APP_DEFAULT_LONGITUDE]
+    }
+  },
+
+  setup() {
+    const store = useStore();
+
+
+    onMounted(() => {
+      store.dispatch("getCities");
+
+    });
+
+    return {
+      cities: computed(() => store.state.cities)
+
+    };
+  },
+
+
 });
 </script>
 <style scoped>
 h1 {
   margin: 40px 0 0;
 }
-
-/*#map {*/
-/*  height: 100vh;*/
-/*}*/
-
 
 </style>
