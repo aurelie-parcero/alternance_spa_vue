@@ -1,4 +1,6 @@
 <template>
+<!--  <p v-for="city in cities" :lat-lng="[city.lat, city.lon]" :key="city.name">-->
+<!--    {{ city.lat }} - {{city.lon}} </p>-->
   <div style="height: 75vh; width: 100vw; margin: 20px auto;">
     <l-map
         v-model:zoom="zoom"
@@ -35,36 +37,22 @@ export default defineComponent({
     LMarker,
     LIcon,
   },
-  data() {
-    const iconWidth = 50;
-    const iconHeight = 50;
-    return {
-      zoom: 13,
-      iconHeight,
-      iconWidth,
-
-    }
-  },
-  computed: {
-    iconSize() {
-      return [this.iconWidth, this.iconHeight];
-    },
-    centerMap() {
-      return [process.env.VUE_APP_DEFAULT_LATITUDE, process.env.VUE_APP_DEFAULT_LONGITUDE]
-    }
-  },
 
   setup() {
     const store = useStore();
 
-
     onMounted(() => {
       store.dispatch("getCities");
+      store.dispatch('testTest');
 
     });
 
     return {
-      cities: computed(() => store.state.cities)
+      centerMap: computed(() => store.state.centerMap),
+      cities: computed(() => store.state.cities),
+      iconSize: computed(() => store.state.iconSize),
+      zoom: computed(() => store.state.zoom),
+      test: computed(() => store.state.test)
 
     };
   },

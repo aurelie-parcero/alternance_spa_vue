@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+
 import City from "./City.vue";
 import {defineComponent, onMounted, computed} from 'vue';
 import {useStore} from 'vuex'
@@ -20,7 +21,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-
+    console.log(computed(() => store.state.cities));
     onMounted(() => {
       store.dispatch("getCities");
 
