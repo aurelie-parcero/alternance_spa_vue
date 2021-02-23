@@ -43,7 +43,6 @@ export default defineComponent({
 
     onMounted(() => {
       store.dispatch("getCities");
-      store.dispatch('testTest');
 
     });
 
@@ -52,7 +51,6 @@ export default defineComponent({
       cities: computed(() => store.state.cities),
       iconSize: computed(() => store.state.iconSize),
       zoom: computed(() => store.state.zoom),
-      test: computed(() => store.state.test)
 
     };
   },

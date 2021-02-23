@@ -8,20 +8,21 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import moment from 'moment';
+import moment from "moment";
 
 export default defineComponent ({
   name: 'City',
   props: {
     name: String,
     weather: String,
+    // @ts-ignore
     temperature: Number,
     updatedAt: Date,
   },
   methods: {
-    currentDateTime() {
+    currentDateTime(date : Date) {
       moment.locale("fr");
-      return moment(this.updatedAt).fromNow();
+      return moment(date).fromNow();
     }
   }
 });

@@ -5,7 +5,6 @@
           :temperature="city.temperature" :updated-at="city.updatedAt"></City>
 
   </div>
-
 </template>
 
 <script lang="ts">
@@ -21,19 +20,33 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    console.log(computed(() => store.state.cities));
     onMounted(() => {
+
       store.dispatch("getCities");
 
     });
 
     return {
-      cities: computed(() => store.state.cities)
+      cities: computed(() => store.state.cities),
     };
 
   },
+  // watch: {
+  //   timeDiff: function() {
+      //if(Date.now() - Date.parse(localStorage.lastUpdate).valueOf() > 1000) {
+      //   console.log(localStorage.lastUpdate);
+      //   console.log('hey');
+    //  }
 
-})
+      // const store = useStore();
+      // let diff = Date.now() - Date.parse(localStorage.lastUpdate).valueOf();
+      // if(diff > 1000) {
+      //   store.dispatch("getCities");
+    // }
+    //localStorage.lastUpdate = new Date();
+  // }
+
+});
 </script>
 
 <style scoped>
