@@ -1,16 +1,16 @@
 <template>
   <div>
-    <h2>{{name}}</h2>
-    <p>Temps : {{weather}} - Température : {{temperature}}°C</p>
-    <p><em>Dernière mise à jour : {{currentDateTime(updatedAt)}}</em></p>
+    <h2>{{ name }}</h2>
+    <p>Temps : {{ weather }} - Température : {{ temperature }}°C</p>
+    <p><em>Dernière mise à jour : {{ currentDateTime(updatedAt) }}</em></p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {defineComponent, onMounted} from 'vue';
 import moment from "moment";
 
-export default defineComponent ({
+export default defineComponent({
   name: 'City',
   props: {
     name: String,
@@ -20,16 +20,21 @@ export default defineComponent ({
     updatedAt: Date,
   },
   methods: {
-    currentDateTime(date : Date) {
+    currentDateTime(date: Date) {
       moment.locale("fr");
       return moment(date).fromNow();
     }
+  },
+  setup() {
+    onMounted(() => {
+
+    });
   }
 });
 </script>
 
 <style scoped>
-  h1 {
-    margin: 40px 0 0;
-  }
+h1 {
+  margin: 40px 0 0;
+}
 </style>

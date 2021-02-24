@@ -3,6 +3,7 @@ import CitiesList from "@/components/CitiesList.vue";
 import CitiesMap from "../components/CitiesMap.vue";
 import City from "@/components/City.vue";
 import EasterEgg from "@/components/EasterEgg.vue";
+import Search from "@/components/Search.vue";
 
 
 
@@ -25,6 +26,11 @@ const router = createRouter({
       name: 'City',
       component: City
     },
+    // {
+    //   path: '/search',
+    //   name: 'Search',
+    //   component: Search
+    // },
     {
       path: '/onenagros',
       name: 'EasterEgg',

@@ -1,7 +1,6 @@
 <template>
-<!--  <p v-for="city in cities" :lat-lng="[city.lat, city.lon]" :key="city.name">-->
-<!--    {{ city.lat }} - {{city.lon}} </p>-->
-  <div style="height: 75vh; width: 100vw; margin: 20px auto;">
+
+  <div style="height: 75vh; width: 99vw; margin: 20px auto;">
     <l-map
         v-model:zoom="zoom"
         :center="centerMap"
@@ -42,7 +41,7 @@ export default defineComponent({
     const store = useStore();
 
     onMounted(() => {
-      store.dispatch("getCities");
+      //store.dispatch("getCities");
 
     });
 

@@ -14,18 +14,32 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from './components/HelloWorld.vue';
+// import {Options, Vue} from 'vue-class-component';
+import { defineComponent, onMounted } from 'vue';
+import {useStore} from "vuex";
 
 
-@Options({
-  components: {
-    HelloWorld,
-  },
+// @Options({
+//   components: {
+//   },
+//
+// })
+
+export default defineComponent ({
+  name: 'App',
+  setup() {
+    const store = useStore();
+    store.dispatch('initialiseStore');
+
+    onMounted(() => {
+      // console.log('App mounted')
+      store.subscribe((mutation, state) => {
+        localStorage.setItem('store', JSON.stringify(state));
+      });
+      store.dispatch("getCities");
+    });
+  }
 })
-export default class App extends Vue {
-
-}
 </script>
 
 <style>
