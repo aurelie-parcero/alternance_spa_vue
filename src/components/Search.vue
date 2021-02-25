@@ -1,14 +1,29 @@
 <template>
   <form class="search-form">
     <label for="city">Quelle ville ?</label>
-    <input type="text" id="city" placeholder="Annecy" v-model="query" required>
+    <input type="text" id="city" placeholder="Annecy" v-model.trim="query" required>
 
-    <button @click="loadSelected($event)">Rechercher</button>
+    <button @click="loadSelected()">Rechercher</button>
   </form>
-<div class="list-container">
-  <div class="list" v-for="city of selectedCities" :key="city"><p>{{city}}</p><button @click="deleteCity($event, city)" class="delete">x</button></div>
-</div>
-  <p></p>
+  <div class="list-container">
+    <div class="list" v-for="city of selectedCities" :key="city"><p>{{ city }}</p>
+      <button @click="deleteCity(city)" class="delete">x</button>
+    </div>
+  </div>
+
+
+  <form class="search-form">
+    <label for="temp">Ville avec température inférieure à: </label>
+    <input type="text" id="temp" placeholder="12" v-model="temp" required>
+    <button @click="setTemp(temp)" class="delete">Rechercher</button>
+  </form>
+
+  <div class="list-container">
+    <div v-if="maxTemp != null" class="list max-temp" :key="maxTemp"><p>Température inférieure à <span>{{ maxTemp }} °C</span></p>
+      <button @click="setTemp(null)" class="delete">x</button>
+    </div>
+  </div>
+
 </template>
 
 
@@ -16,13 +31,16 @@
 
 import {computed, defineComponent} from 'vue';
 import {useStore} from "vuex";
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 export default defineComponent({
   name: 'Search',
-
-  components: {
+  data() {
+    return {
+      temp: null
+    }
   },
+
   setup() {
     const store = useStore();
     const query = ref();
@@ -31,27 +49,31 @@ export default defineComponent({
     return {
       list,
       query,
+      maxTemp: computed(() => store.state.maxTemp),
+      cities: computed(() => store.state.cities),
       selectedCities: computed(() => store.state.selectedCities),
-      loadSelected(event: any): void {
-        list.push(query.value);
-        event.preventDefault();
-        store.dispatch('loadSelectedCities', list);
-      },
-
-      deleteCity (event: any, cityName: string): void{
-        if(store.state.selectedCities.indexOf(cityName) !== -1) {
-          console.log(list)
-          list.splice(store.state.selectedCities.indexOf(cityName), 1);
-          store.dispatch('deleteSelected', store.state.selectedCities.indexOf(cityName));
-          console.log(list)
+      loadSelected(): void {
+        if(list.indexOf(query.value) === -1) {
+          list.push(query.value);
+          store.dispatch('loadSelectedCities', list);
         }
 
+      },
 
-      }
+      deleteCity(cityName: string): void {
+        if (store.state.selectedCities.indexOf(cityName) !== -1) {
+          list.splice(store.state.selectedCities.indexOf(cityName), 1);
+          store.dispatch('deleteSelected', store.state.selectedCities.indexOf(cityName));
+        }
 
+      },
+      setTemp(temp: number): void {
+        store.commit('setMaxTemp', temp);
+      },
 
     };
   },
+
 
 });
 </script>
@@ -79,7 +101,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   padding: 5px;
-  background-color:#fff2f8;
+  background-color: #fff2f8;
   margin: 5px auto;
   border-radius: 10px;
   width: fit-content;
@@ -104,5 +126,15 @@ export default defineComponent({
 
 .list p {
   margin: 0;
+  font-size: 13px;
+}
+
+.list.max-temp p {
+  font-size: 12px;
+}
+
+.list.max-temp p span{
+  font-size: 13px;
+  font-weight: bold;
 }
 </style>

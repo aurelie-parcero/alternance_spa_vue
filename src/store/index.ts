@@ -26,7 +26,8 @@ export default createStore({
         iconSize: [iconWidth, iconHeight],
         zoom: 12,
         selectedCities: [],
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
+        maxTemp: null
     },
     mutations: {
         getCitiesList: (state, cities) => (state.cities = cities),
@@ -37,7 +38,9 @@ export default createStore({
 
         },
         setUpdate: (state, lastUpdate) => (state.lastUpdate = lastUpdate),
+        setMaxTemp: (state, maxTemp) => (state.maxTemp = maxTemp),
     },
+
     actions: {
         async getCities({commit, dispatch, state}) {
             let localData = JSON.parse(localStorage.getItem('store') as string);
@@ -45,7 +48,7 @@ export default createStore({
             console.log("Time from last update: " + (Date.now() - state.lastUpdate) / 1000 + " seconds");
 
             if (!localData || localData.cities.length == 0 || Date.now() - Date.parse(localData.lastUpdate).valueOf() > 15000) {
-                if(state.selectedCities.length == 0) {
+                if (state.selectedCities.length == 0) {
                     console.log('Updating weather data from api');
                     await axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
                         .then((resp) => {
@@ -69,17 +72,18 @@ export default createStore({
 
         },
         async loadSelectedCities({commit, dispatch, state}, list) {
-           let selectionNames : string[] = [];
+            let selectionNames: string[] = [];
             let selectedObjects: any[] = [];
-            for(const city of list) {
-                let lower = city.toLowerCase();
-                console.log('Updating weather of ' + city + ' city from api');
-                await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${lower}&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
-                    .then((resp) => {
-                        selectedObjects.push(resp.data);
-                    });
+            for (const city of list) {
+
+                    let lower = city.toLowerCase();
+                    console.log('Updating weather of ' + city + ' city from api');
+                    await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${lower}&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
+                        .then((resp) => {
+                            selectedObjects.push(resp.data);
+                        });
             }
-            for(const test of selectedObjects) {
+            for (const test of selectedObjects) {
                 selectionNames.push(test.name);
             }
 
@@ -94,17 +98,25 @@ export default createStore({
             commit('getSelectedCities', selection);
             dispatch('loadSelectedCities', selection);
 
-            if(selection.length === 0) {
+            if (selection.length === 0) {
                 dispatch('getCities');
             }
         },
+
+        // filterByTemp({commit, state}, temp) {
+        //     let currentList = state.cities;
+        //
+        // },
+        // deleteFilter(filter) {
+        //     console.log(filter);
+        // },
 
         initialiseStore({commit}) {
             if (localStorage.getItem('store')) {
                 let local = JSON.parse(localStorage.getItem('store') as string);
 
                 local.lastUpdate = new Date(local.lastUpdate)
-                for(const city of local.cities) {
+                for (const city of local.cities) {
                     city.updatedAt = new Date(city.updatedAt);
                 }
                 commit('getDataFromLocalStorage', Object.assign(local));
