@@ -34,8 +34,12 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-alpha.0",
     "moment-timezone": "^0.5.33",
+    "node-sass": "^5.0.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-vue-next": "~0.1.4"
+    "vue-cli-plugin-vue-next": "~0.1.4",
+    "webpack": "^4.0.0"
   },
   "eslintConfig": {
     "root": true,

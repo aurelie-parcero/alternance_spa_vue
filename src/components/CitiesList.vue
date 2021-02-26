@@ -71,28 +71,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-h1 {
-  margin: 40px 0 0;
-}
 
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  max-width: 90vw;
-  margin: auto;
-}
-
-.flex > * {
-  margin: 10px;
-}
-
-.search {
-  flex: 1;
-}
-
-.cities-list {
-  flex: 3;
-}
 </style>

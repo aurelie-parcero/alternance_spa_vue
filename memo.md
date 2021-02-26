@@ -137,7 +137,7 @@ Au bout d'un moment, la gestion de l'état devient très complexe.
 ### Quel est le nom du pattern implémenté par vuex ?
 State management pattern - Pattern de store centralisé
 
-
+p
 Vuex est basée sur l'architecture Elm => https://guide.elm-lang.org/architecture/
 
 ![Elm pattern](src/assets/elm.svg)
@@ -153,3 +153,15 @@ Chaque mutation a un type sous forme de chaine de caractères et un gestionnaire
 Les mutations sont synchrones. Les mutations peuvent être synchrones ou asynchrones.
 
 Mutation => changer l'état du state. On lui passe une action
+
+
+
+### Sass
+
+Avoir webpack installé (version 4.0.0)
+``npm install -D sass node-sass``
+
+Installer sass-loader: /!\ AVec webpack 4: ``npm install -D sass-loader@^10 sass``
+
+Dans ``mains.ts`` / ``main.js``, importer nos fichiers sass: ``import './styles/style.scss'``
+On peut également utiliser sass dans les balises style de nos composants en déclarant ``lang=scss``

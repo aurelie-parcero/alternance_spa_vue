@@ -1,0 +1,16 @@
+@mixin button {
+  border-radius: 0;
+  padding: 5px 10px;
+  background-color: $c-dark-grey;
+  color: #FFFFFF;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  max-width: 100px;
+  margin: 10px auto;
+  &:hover {
+    background-color: $c-grey;
+    transform: translateY(3px);
+  }
+}
